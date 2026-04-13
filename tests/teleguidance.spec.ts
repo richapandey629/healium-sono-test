@@ -1,0 +1,33 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://app.healiumsono.com/');
+  await page.getByRole('textbox', { name: 'Enter your email' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('abchospital@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@');
+  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@H');
+  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@Hospital123');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'TeleGuidance' }).click();
+  await expect(page.getByRole('heading', { name: 'Teleguidance' })).toBeVisible();
+  await page.getByRole('button', { name: 'Schedule Session' }).nth(1).click();
+  await page.getByRole('textbox', { name: 'Session Title *' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Session Title *' }).fill('T');
+  await page.getByRole('textbox', { name: 'Session Title *' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Session Title *' }).fill('Testing');
+  await page.getByRole('textbox', { name: 'Session Description *' }).click();
+  await page.getByRole('textbox', { name: 'Session Description *' }).fill('t');
+  await page.getByRole('textbox', { name: 'Session Description *' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Session Description *' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Session Description *' }).fill('testing');
+  await page.getByRole('textbox', { name: 'Scheduled Date *' }).fill('2026-04-27');
+  await page.locator('input[name="scheduledTime"]').click();
+  await page.locator('input[name="scheduledTime"]').press('ArrowLeft');
+  await page.locator('input[name="scheduledTime"]').fill('11:00');
+  await page.getByRole('combobox', { name: 'Duration *' }).click();
+  await page.getByLabel('30 Minutes').getByText('Minutes').click();
+  await page.getByRole('button', { name: 'Schedule Session' }).click();
+});
