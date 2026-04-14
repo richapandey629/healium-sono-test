@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://www.healiumsono.com/');
+  await page.getByRole('link', { name: 'Login' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).click();
+  await page.getByRole('textbox', { name: 'Enter your email' }).fill('abchospital@gmail.com');
+  await page.getByRole('textbox', { name: 'Enter your password' }).click();
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@');
+  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@H');
+  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@Hospital123');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.getByRole('link', { name: 'Setting' }).click();
+  await expect(page.getByRole('link', { name: 'Setting' })).toBeVisible();
+  await expect(page.getByText('Profile Information', { exact: true })).toBeVisible();
+  await page.getByRole('textbox', { name: 'Full Name' }).click();
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('ABC H');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('ABC H');
+  await page.getByRole('textbox', { name: 'Full Name' }).press('CapsLock');
+  await page.getByRole('textbox', { name: 'Full Name' }).fill('ABC Hospital');
+  await page.getByRole('button', { name: 'Save Changes' }).click();
+  await expect(page.getByText('Your profile information updated!')).toBeVisible();
+  await expect(page.getByText('Change Password')).toBeVisible();
+  await expect(page.getByText('Profile Information', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Setting' })).toBeVisible();
+});
