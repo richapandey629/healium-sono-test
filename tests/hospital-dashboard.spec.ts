@@ -2,15 +2,12 @@ import { test, expect } from '@playwright/test';
 
 test('Hospital Dashboard Test', async ({ page }) => {
   // Recording...
-  await page.goto('https://www.healiumsono.com/');
-  await page.getByRole('link', { name: 'Login' }).click();
+   await page.locator('body').click();
+  await page.goto('https://app.healiumsono.com/');
   await page.getByRole('textbox', { name: 'Enter your email' }).click();
   await page.getByRole('textbox', { name: 'Enter your email' }).fill('abchospital@gmail.com');
   await page.getByRole('textbox', { name: 'Enter your password' }).click();
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('@');
-  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
-  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@H');
-  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('@Hospital123');
   await page.getByRole('button', { name: 'Sign in' }).click();
   await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();

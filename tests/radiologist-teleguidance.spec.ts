@@ -1,27 +1,33 @@
 import { test, expect } from '@playwright/test';
 
 test('Radiologist Teleguidance Test', async ({ page }) => {
-  await page.goto('https://www.healiumsono.com/');
-  await page.getByRole('link', { name: 'Login' }).click();
-  await page.getByRole('textbox', { name: 'Enter your email' }).click();
+  // 1. Professional Login (Removed redundant clicks/CapsLock)
+  await page.goto('https://app.healiumsono.com/'); 
   await page.getByRole('textbox', { name: 'Enter your email' }).fill('richa@gmail.com');
-  await page.getByRole('textbox', { name: 'Enter your password' }).click();
-  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@');
-  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
-  await page.getByRole('textbox', { name: 'Enter your password' }).fill('@R');
-  await page.getByRole('textbox', { name: 'Enter your password' }).press('CapsLock');
   await page.getByRole('textbox', { name: 'Enter your password' }).fill('@Radiologist123');
   await page.getByRole('button', { name: 'Sign in' }).click();
+
+  // 2. Navigation
   await page.getByRole('link', { name: 'TeleGuidance' }).click();
   await expect(page.getByRole('heading', { name: 'Teleguidance' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Upcoming (6)' })).toBeVisible();
-  await page.getByRole('button', { name: 'Missed (1)' }).click();
-  await expect(page.getByRole('button', { name: 'Missed (1)' })).toBeVisible();
-  await page.getByRole('button', { name: 'History (0)' }).click();
-  await expect(page.getByRole('button', { name: 'History (0)' })).toBeVisible();
-  await page.getByRole('button', { name: 'Upcoming (6)' }).click();
-  await expect(page.getByRole('button', { name: 'Upcoming (6)' })).toBeVisible();
+
+  // 3. Dynamic Button Matching (Regex ignores the number in brackets)
+  const upcomingTab = page.getByRole('button', { name: /Upcoming/i });
+  const missedTab = page.getByRole('button', { name: /Missed/i });
+  const historyTab = page.getByRole('button', { name: /History/i });
+
+  // 4. Interaction and Verification
+  await expect(upcomingTab).toBeVisible();
+  
+  await missedTab.click();
+  await expect(missedTab).toBeVisible();
+
+  await historyTab.click();
+  await expect(historyTab).toBeVisible();
+
+  await upcomingTab.click();
+  
+  // 5. Verify Content Sections
   await expect(page.getByRole('heading', { name: 'Upcoming Sessions' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Sessions', exact: true })).toBeVisible();
-  await page.getByRole('heading', { name: 'Teleguidance' }).click();
 });
